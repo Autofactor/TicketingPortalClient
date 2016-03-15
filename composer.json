@@ -1,0 +1,25 @@
+{
+    "name": "albertarni/ticketing-portal-client",
+    "description": "Client for ticketing portal sign-in-request",
+    "authors": [
+        {
+            "name": "aalbert",
+            "email": "arnold.albert@lynxsolutions.eu"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Albertarni\\TicketingPortalClient\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "4.8.*"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AlbertarniTest\\TicketingPortalClient\\": "test/"
+        }
+    }
+}
