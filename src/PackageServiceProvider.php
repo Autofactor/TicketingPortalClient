@@ -3,6 +3,10 @@
 namespace Albertarni\TicketingPortalClient;
 
 use Illuminate\Support\ServiceProvider;
+use Config;
+use Route;
+use Request;
+use Session;
 
 class PackageServiceProvider extends ServiceProvider
 {
@@ -13,9 +17,7 @@ class PackageServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->publishes([
-            $this->getMyConfigPath() => config_path(self::getMyConfigName().'.php'),
-            ], 'config');
+        $this->app['config']->package('albertarni/ticketing-portal-client', __DIR__.'/config');
     }
     /**
      * Register the application services.
@@ -24,20 +26,15 @@ class PackageServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(
-            $this->getMyConfigPath(), self::getMyConfigName()
-        );
-    }
-    private function getMyConfigPath()
-    {
-        return __DIR__.'/config.php';
-    }
-    private static function getMyConfigName()
-    {
-        return 'ticketing-portal';
-    }
-    public static function config($key)
-    {
-        return Config::get(self::getMyConfigName().'.'.$key);
+        Route::filter('sign_request', function() {
+            if (Request::has('sign_token')) {
+                $redirect_url = Request::get('redirect_url');
+                $apiToken     = $this->app['config']->get('ticketing-portal-client::config.apiToken');
+                $sign_request = new SignRequest($apiToken);
+                if ($sign_request->validateHash(Request::all())) {
+                    Session::put('redirect_url', $redirect_url);
+                }
+            }
+        });
     }
 }

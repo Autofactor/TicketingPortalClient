@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\Redirect;
 
 trait RedirectToPortalTrait
 {
+    
+    public function validateSignToken()
+    {
+        
+    }
+
     /**
      * Redirect to the ticketing portal
      * @param \Albertarni\TicketingPortalClient\SignerInterface $signer
@@ -20,16 +26,13 @@ trait RedirectToPortalTrait
         $project_id = $this->getTicketingPortalConfig('projectId');
 
         $sign_request            = new SignRequest($api_token, $redirect_url);
-        $data                    = Input::except('redirect_url');
         $data['sign_project_id'] = $project_id;
-        $data['sign_email']      = $signer->email();
-        $data['sign_first_name'] = $signer->firstname();
-        $data['sign_last_name']  = $signer->lastname();
+        $data['sign_email']      = $signer->helpdeskEmail();
+        $data['sign_first_name'] = $signer->helpdeskFirstname();
+        $data['sign_last_name']  = $signer->helpdeskLastname();
         $data['sign_token']      = $sign_request->makeHash($data);
 
-        $url = $sign_request->getUrl(array_merge($data, array(
-            'sign_token' => $token
-        )));
+        $url = $sign_request->getUrl($data);
 
         return Redirect::away($url);
     }
@@ -37,10 +40,7 @@ trait RedirectToPortalTrait
      *
      * @return \Albertarni\TicketingPortalClient\SignerInterface
      */
-    protected function getSignerInterfaceImplementation()
-    {
-        return I();
-    }
+    protected abstract function getSignerInterfaceImplementation();
     /**
      *
      * @param type $key
@@ -48,6 +48,6 @@ trait RedirectToPortalTrait
      */
     protected function getTicketingPortalConfig($key)
     {
-        return Config::get('ticketingPortal.'.$key);
+        return Config::get('ticketing-portal-client::config.'.$key);
     }
 }
