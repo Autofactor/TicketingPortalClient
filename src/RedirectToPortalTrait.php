@@ -8,12 +8,6 @@ use Illuminate\Support\Facades\Redirect;
 
 trait RedirectToPortalTrait
 {
-    
-    public function validateSignToken()
-    {
-        
-    }
-
     /**
      * Redirect to the ticketing portal
      * @param \Albertarni\TicketingPortalClient\SignerInterface $signer
