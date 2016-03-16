@@ -7,6 +7,8 @@ use Config;
 use Route;
 use Request;
 use Session;
+use App;
+use Redirect;
 
 class PackageServiceProvider extends ServiceProvider
 {
@@ -30,9 +32,13 @@ class PackageServiceProvider extends ServiceProvider
             $signer       = App::make('SignerInterfaceImplementation');
             $api_token    = $this->app['config']->get('ticketing-portal-client::config.apiToken');
             $project_id   = $this->app['config']->get('ticketing-portal-client::config.projectId');
-            $redirect_url = Session::pull('redirect_url');
+            $redirect_url = Request::get('redirect_url');
 
-            $sign_request            = new SignRequest($api_token, $redirect_url);
+            $sign_request = new SignRequest($api_token, $redirect_url);
+
+            if (!$sign_request->validateHash(Request::all())) {
+                return App::abort(401);
+            }
             $data['sign_project_id'] = $project_id;
             $data['sign_email']      = $signer->helpdeskEmail();
             $data['sign_first_name'] = $signer->helpdeskFirstname();
@@ -42,7 +48,7 @@ class PackageServiceProvider extends ServiceProvider
             $url = $sign_request->getUrl($data);
 
             return Redirect::away($url);
-        });
+        })->before('auth');
 
         Route::filter('sign_request', function() {
             if (Request::has('sign_token')) {
