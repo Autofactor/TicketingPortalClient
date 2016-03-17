@@ -34,7 +34,12 @@ class PackageServiceProvider extends ServiceProvider
             $project_id   = $this->app['config']->get('ticketing-portal-client::config.projectId');
             $redirect_url = Request::get('redirect_url');
 
-            $sign_request            = new SignRequest($api_token, $redirect_url);
+            $sign_request = new SignRequest($api_token);
+            if (!$sign_request->validateHash(Request::all())) {
+                return App::abort(401);
+            }
+
+            $sign_request->setUrl($redirect_url);
             $data['sign_project_id'] = $project_id;
             $data['sign_email']      = $signer->helpdeskEmail();
             $data['sign_first_name'] = $signer->helpdeskFirstname();
@@ -44,16 +49,15 @@ class PackageServiceProvider extends ServiceProvider
             $url = $sign_request->getUrl($data);
 
             return Redirect::away($url);
-        })->before(['sign_request', 'auth']);
+        })->before('auth');
 
         Route::filter('sign_request', function() {
             if (Request::has('sign_token')) {
                 $apiToken     = $this->app['config']->get('ticketing-portal-client::config.apiToken');
                 $sign_request = new SignRequest($apiToken);
-                if (!$sign_request->validateHash(Request::all())) {
-                    return App::abort(401);
+                if ($sign_request->validateHash(Request::all())) {
+                    Session::put('redirect_url', Request::get('redirect_url'));
                 }
-                Session::flash('redirect_url', Request::get('redirect_url'));
             }
         });
     }

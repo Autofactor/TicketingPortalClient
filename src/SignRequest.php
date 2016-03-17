@@ -11,9 +11,13 @@ class SignRequest
     public function __construct($api_token, $url = '')
     {
         $this->api_token = $api_token;
-        $this->url       = $url;
 
-        $query = parse_url($url, PHP_URL_QUERY);
+        $this->setUrl($url);
+    }
+    public function setUrl($url)
+    {
+        $this->url = $url;
+        $query     = parse_url($url, PHP_URL_QUERY);
         parse_str($query, $this->query_params);
     }
     public function getUrl($data = array())
