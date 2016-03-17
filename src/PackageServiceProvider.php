@@ -39,16 +39,8 @@ class PackageServiceProvider extends ServiceProvider
                 return App::abort(401);
             }
 
-            $sign_request->setUrl($redirect_url);
-            $data['sign_project_id'] = $project_id;
-            $data['sign_email']      = $signer->helpdeskEmail();
-            $data['sign_first_name'] = $signer->helpdeskFirstname();
-            $data['sign_last_name']  = $signer->helpdeskLastname();
-            $data['sign_token']      = $sign_request->makeHash($data);
-
-            $url = $sign_request->getUrl($data);
-
-            return Redirect::away($url);
+            $url_generator = new UrlGenerator($signer, $api_token, $project_id);
+            return Redirect::away($url_generator->getUrl($redirect_url));
         })->before('auth');
 
         Route::filter('sign_request', function() {

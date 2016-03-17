@@ -19,16 +19,9 @@ trait RedirectToPortalTrait
         $api_token  = $this->getTicketingPortalConfig('apiToken');
         $project_id = $this->getTicketingPortalConfig('projectId');
 
-        $sign_request            = new SignRequest($api_token, $redirect_url);
-        $data['sign_project_id'] = $project_id;
-        $data['sign_email']      = $signer->helpdeskEmail();
-        $data['sign_first_name'] = $signer->helpdeskFirstname();
-        $data['sign_last_name']  = $signer->helpdeskLastname();
-        $data['sign_token']      = $sign_request->makeHash($data);
+        $url_generator = new UrlGenerator($signer, $api_token, $project_id);
 
-        $url = $sign_request->getUrl($data);
-
-        return Redirect::away($url);
+        return Redirect::away($url_generator->getUrl($redirect_url));
     }
     /**
      *

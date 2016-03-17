@@ -46,8 +46,11 @@ class SignRequest
     public function validateHash($data = [])
     {
         $data  = array_merge($data, $this->query_params);
-        $token = array_get($data, 'sign_token', null);
-        $data  = array_except($data, ['sign_token']);
+        $token = null;
+        if (isset($data['sign_token'])) {
+            $token = $data['sign_token'];
+            unset($data['sign_token']);
+        }
 
         return $this->makeHash($data) === $token;
     }
