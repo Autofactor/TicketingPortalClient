@@ -53,6 +53,7 @@ class PackageServiceProvider extends ServiceProvider
                 if (!$sign_request->validateHash(Request::all())) {
                     return App::abort(401);
                 }
+                Session::flash('redirect_url', Request::get('redirect_url'));
             }
         });
     }
