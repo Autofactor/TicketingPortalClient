@@ -43,7 +43,7 @@ class SignRequest
 
         return sha1($string_to_hash);
     }
-    public function validateHash($data = [])
+    public function validateHash($data = array())
     {
         $data  = array_merge($data, $this->query_params);
         $token = null;
