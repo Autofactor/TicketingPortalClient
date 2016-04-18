@@ -4,7 +4,5 @@ namespace Albertarni\TicketingPortalClient;
 
 interface SignerInterface
 {
-    public function helpdeskEmail();
-    public function helpdeskFirstname();
-    public function helpdeskLastname();
+    public function helpdeskData();
 }
