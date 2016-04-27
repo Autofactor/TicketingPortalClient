@@ -41,7 +41,7 @@ class PackageServiceProvider extends ServiceProvider
 
             $url_generator = new UrlGenerator($signer, $api_token, $project_id);
             return Redirect::away($url_generator->getUrl($redirect_url));
-        })->before('auth');
+        })->before(['auth', 'sign_request']);
 
         Route::filter('sign_request', function() {
             if (Request::has('sign_token')) {
