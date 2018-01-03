@@ -15,7 +15,7 @@ class UrlGenerator
         $this->project_id = $project_id;
     }
 
-    public function getUrl($url)
+    public function getUrl($url, $body_data = [])
     {
         foreach ($this->signer->helpdeskData() as $key => $value) {
             $data["sign_{$key}"] = $value;
@@ -23,7 +23,7 @@ class UrlGenerator
 
         $sign_request            = new SignRequest($this->api_token, $url);
         $data['sign_project_id'] = $this->project_id;
-        $data['sign_token']      = $sign_request->makeHash($data);
+        $data['sign_token']      = $sign_request->makeHash(array_merge($data, (array)$body_data));
 
         return $sign_request->getUrl($data);
     }
