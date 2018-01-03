@@ -60,7 +60,7 @@ abstract class Model
      *
      * @return string
      */
-    public function primaryKey() {
+    public function getPrimaryKey() {
         return $this->primaryKey;
     }
 
@@ -192,7 +192,7 @@ abstract class Model
         $this->filters['per_page'] = $limit;
         $this->filters['page'] = $offset;
 
-        return $this->get();
+        return $this->list();
     }
 
 
@@ -201,8 +201,20 @@ abstract class Model
      * @return PaginatedCollection|array
      * @throws ApiException
      */
-    public function get() {
+    public function list() {
         $result = $this->connection()->get($this->url, $this->filters);
         return $this->collectionFromResult($result);
+    }
+
+    public function save() {
+        $id_field = $this->getPrimaryKey();
+        if (empty($this->$id_field)) {
+            $result = $this->connection()->post($this->url, $this->getAttributes());
+        }
+        else {
+            $result = $this->connection()->put($this->url, $this->getAttributes());
+        }
+
+        $this->fill($result['data']);
     }
 }

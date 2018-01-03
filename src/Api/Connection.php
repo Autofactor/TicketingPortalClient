@@ -8,11 +8,16 @@
 
 namespace Albertarni\TicketingPortalClient\Api;
 
+use Albertarni\TicketingPortalClient\Api\Exception\ForbiddenException;
+use Albertarni\TicketingPortalClient\Api\Exception\NotFoundException;
+use Albertarni\TicketingPortalClient\Api\Exception\UnauthorizedException;
+use Albertarni\TicketingPortalClient\Api\Exception\ValidationException;
 use Albertarni\TicketingPortalClient\SignerInterface;
 use Albertarni\TicketingPortalClient\UrlGenerator;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
@@ -164,16 +169,7 @@ class Connection
      */
     public function get($url, array $params = [])
     {
-        $url = $this->formatUrl($url);
-
-        try {
-            $request = $this->createRequest('GET', $url, [], $params);
-            $response = $this->client()->send($request);
-
-            return $this->parseResponse($response);
-        } catch (Exception $e) {
-            $this->parseExceptionForErrorMessages($e);
-        }
+        return $this->send('GET', $url, [], $params);
     }
 
     /**
@@ -183,58 +179,67 @@ class Connection
      */
     public function post($url, $body)
     {
-        $url = $this->formatUrl($url);
-
-        try {
-            $request  = $this->createRequest('POST', $url, $body);
-            $response = $this->client()->send($request);
-
-            return $this->parseResponse($response);
-        } catch (Exception $e) {
-            $this->parseExceptionForErrorMessages($e);
-        }
+        return $this->send('POST', $url, $body);
     }
 
     /**
      * @param $url
      * @param $body
      * @return mixed
-     * @throws ApiException
      */
     public function put($url, $body)
     {
-        $url = $this->formatUrl($url);
-
-        try {
-            $request  = $this->createRequest('PUT', $url, $body);
-            $response = $this->client()->send($request);
-
-            return $this->parseResponse($response);
-        } catch (Exception $e) {
-            $this->parseExceptionForErrorMessages($e);
-        }
+        return $this->send('PUT', $url, $body);
     }
 
 
     /**
      * @param $url
      * @return mixed
-     * @throws ApiException
      */
     public function delete($url)
     {
-        $url = $this->formatUrl($url);
-
-        try {
-            $request  = $this->createRequest('DELETE', $url);
-            $response = $this->client()->send($request);
-
-            return $this->parseResponse($response);
-        } catch (Exception $e) {
-            $this->parseExceptionForErrorMessages($e);
-        }
+        return $this->send('DELETE', $url);
     }
 
+
+    /**
+     * @param $method
+     * @param $url
+     * @param array $body
+     * @param array $params
+     * @return mixed
+     * @throws Exception
+     * @throws ValidationException
+     */
+    private function send($method, $url, $body = [], $params = []) {
+        $url = $this->formatUrl($url);
+
+        $request = $this->createRequest($method, $url, $body, $params);
+
+        try {
+            $response = $this->client()->send($request);
+        }
+        catch (ClientException $e) {
+            $json = $this->parseResponse($e->getResponse());
+            switch($e->getCode()) {
+                case 401:
+                    throw new UnauthorizedException($json);
+                    break;
+                case 403:
+                    throw new ForbiddenException($json['error']);
+                    break;
+                case 404:
+                    throw new NotFoundException();
+                    break;
+                case 422:
+                    throw new ValidationException($json);
+                    break;
+            }
+        }
+
+        return $this->parseResponse($response);
+    }
 
 
     /**
@@ -267,55 +272,24 @@ class Connection
     /**
      * @param Response $response
      * @return mixed
-     * @throws ApiException
+     * @throws ValidationException
      */
     private function parseResponse(Response $response)
     {
-        try {
-
-            if ($response->getStatusCode() === 204) {
-                return [];
-            }
-
-            Psr7\rewind_body($response);
-            $json = json_decode($response->getBody()->getContents(), true);
-
-            return $json;
-        } catch (\RuntimeException $e) {
-            throw new ApiException($e->getMessage());
+        if ($response->getStatusCode() === 204) {
+            return null;
         }
+
+        Psr7\rewind_body($response);
+        $json = json_decode($response->getBody()->getContents(), true);
+
+        return $json;
     }
 
 
     private function formatUrl($endPoint)
     {
-        return "{$this->baseUrl}{$endPoint}";
-    }
-
-
-    /**
-     * Parse the reponse in the Exception to return the Exact error messages
-     * @param Exception $e
-     * @throws ApiException
-     */
-    private function parseExceptionForErrorMessages(Exception $e)
-    {
-        if (! $e instanceof BadResponseException) {
-            throw new ApiException($e->getMessage());
-        }
-
-        $response = $e->getResponse();
-        Psr7\rewind_body($response);
-        $responseBody = $response->getBody()->getContents();
-        $decodedResponseBody = json_decode($responseBody, true);
-
-        if (! is_null($decodedResponseBody) && isset($decodedResponseBody['error']['message']['value'])) {
-            $errorMessage = $decodedResponseBody['error']['message']['value'];
-        } else {
-            $errorMessage = $responseBody;
-        }
-
-        throw new ApiException('Error ' . $response->getStatusCode() .': ' . $errorMessage);
+        return "{$this->baseUrl}api/{$endPoint}";
     }
 
 

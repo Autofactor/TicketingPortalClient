@@ -6,7 +6,7 @@
  * Time: 5:52 PM
  */
 
-namespace Albertarni\TicketingPortalClient\Api\ReleaseNotes;
+namespace Albertarni\TicketingPortalClient\Api\ReleaseNote;
 
 
 use Albertarni\TicketingPortalClient\Api\Model;
