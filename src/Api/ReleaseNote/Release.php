@@ -6,14 +6,14 @@
  * Time: 5:52 PM
  */
 
-namespace Albertarni\TicketingPortalClient\Api\ReleaseNotes;
+namespace Albertarni\TicketingPortalClient\Api\ReleaseNote;
 
 
 use Albertarni\TicketingPortalClient\Api\Model;
 
 class Release extends Model
 {
-    protected $url = 'releases';
+    protected $url = 'release';
 
     protected $fillable = [
         'id',
@@ -22,6 +22,6 @@ class Release extends Model
     ];
 
     protected $relations = [
-        'notes' => 'Albertarni\TicketingPortalClient\Api\ReleaseNotes\Note'
+        'notes' => 'Albertarni\TicketingPortalClient\Api\ReleaseNote\Note'
     ];
 }
