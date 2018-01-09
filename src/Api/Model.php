@@ -142,10 +142,12 @@ abstract class Model
 
 
     protected function parsePagination(PaginatedCollection $collection, $result) {
-        $collection->setLimit($result['meta']['pagination']['per_page']);
-        $collection->setOffset($result['meta']['pagination']['current_page']);
-        $collection->setTotalOffsets($result['meta']['pagination']['total_pages']);
-        $collection->setTotal($result['meta']['pagination']['total']);
+        if(isset($result['meta'])) {
+            $collection->setLimit($result['meta']['pagination']['per_page']);
+            $collection->setOffset($result['meta']['pagination']['current_page']);
+            $collection->setTotalOffsets($result['meta']['pagination']['total_pages']);
+            $collection->setTotal($result['meta']['pagination']['total']);
+        }
 
         return $this;
     }
@@ -192,7 +194,7 @@ abstract class Model
         $this->filters['per_page'] = $limit;
         $this->filters['page'] = $offset;
 
-        return $this->list();
+        return $this->get();
     }
 
 
@@ -201,7 +203,7 @@ abstract class Model
      * @return PaginatedCollection|array
      * @throws ApiException
      */
-    public function list() {
+    public function get() {
         $result = $this->connection()->get($this->url, $this->filters);
         return $this->collectionFromResult($result);
     }
