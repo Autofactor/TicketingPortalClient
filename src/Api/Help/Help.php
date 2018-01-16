@@ -18,6 +18,6 @@ class Help extends Model
 
     protected $url = 'help';
 
-    protected $fillable = ['id', 'type', 'title', 'content', 'tags'];
+    protected $fillable = ['id', 'type', 'title', 'content', 'tags', 'url'];
 
 }
