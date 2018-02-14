@@ -15,6 +15,6 @@ class Issue extends Model
 {
     protected $url = 'issue';
 
-    protected $fillable = ['id', 'title', 'description'];
+    protected $fillable = ['id', 'title', 'description', 'attachments'];
 
 }

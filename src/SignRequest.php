@@ -35,6 +35,7 @@ class SignRequest
     public function makeHash($data = array())
     {
         $data           = array_merge($data, $this->query_params);
+        $data = $this->array_dot($data);
         ksort($data);
         $string_to_hash = '';
         foreach ($data as $key => $value) {
@@ -53,5 +54,30 @@ class SignRequest
         }
 
         return $this->makeHash($data) === $token;
+    }
+
+    /**
+     * Flattens the array
+     * @param $array
+     * @param string $prepend
+     * @return array
+     */
+    public function array_dot($array, $prepend = '')
+    {
+        $results = array();
+
+        foreach ($array as $key => $value)
+        {
+            if (is_array($value))
+            {
+                $results = array_merge($results, $this->array_dot($value, $prepend.$key.'.'));
+            }
+            else
+            {
+                $results[$prepend.$key] = $value;
+            }
+        }
+
+        return $results;
     }
 }
