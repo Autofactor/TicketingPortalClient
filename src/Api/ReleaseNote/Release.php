@@ -18,6 +18,7 @@ class Release extends Model
     protected $fillable = [
         'id',
         'released_at',
+        'subject',
         'notes',
     ];
 
