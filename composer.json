@@ -1,15 +1,15 @@
 {
-    "name": "albertarni/ticketing-portal-client",
+    "name": "autofactor/ticketing-portal-client",
     "description": "Client for ticketing portal sign-in-request",
     "authors": [
         {
-            "name": "aalbert",
-            "email": "arnold.albert@lynxsolutions.eu"
+            "name": "Autofactor developers",
+            "email": "developers@autofactor.com"
         }
     ],
     "autoload": {
         "psr-4": {
-            "Albertarni\\TicketingPortalClient\\": "src/"
+            "Autofactor\\TicketingPortalClient\\": "src/"
         }
     },
     "minimum-stability": "dev",
@@ -19,7 +19,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "AlbertarniTest\\TicketingPortalClient\\": "test/"
+            "AutofactorTest\\TicketingPortalClient\\": "test/"
         }
     }
 }
