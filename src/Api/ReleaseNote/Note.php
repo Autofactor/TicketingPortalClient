@@ -6,10 +6,10 @@
  * Time: 5:52 PM
  */
 
-namespace Albertarni\TicketingPortalClient\Api\ReleaseNote;
+namespace Autofactor\TicketingPortalClient\Api\ReleaseNote;
 
 
-use Albertarni\TicketingPortalClient\Api\Model;
+use Autofactor\TicketingPortalClient\Api\Model;
 
 class Note extends Model
 {

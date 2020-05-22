@@ -6,9 +6,9 @@
  * Time: 5:12 PM
  */
 
-namespace Albertarni\TicketingPortalClient\Api;
+namespace Autofactor\TicketingPortalClient\Api;
 
-use Albertarni\TicketingPortalClient\SignerInterface;
+use Autofactor\TicketingPortalClient\SignerInterface;
 
 
 class DummySigner implements SignerInterface

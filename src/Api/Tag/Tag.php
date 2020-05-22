@@ -6,10 +6,10 @@
  * Time: 5:52 PM
  */
 
-namespace Albertarni\TicketingPortalClient\Api\Tag;
+namespace Autofactor\TicketingPortalClient\Api\Tag;
 
 
-use Albertarni\TicketingPortalClient\Api\Model;
+use Autofactor\TicketingPortalClient\Api\Model;
 
 class Tag extends Model
 {

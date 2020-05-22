@@ -6,10 +6,10 @@
  * Time: 5:52 PM
  */
 
-namespace Albertarni\TicketingPortalClient\Api\ReleaseNote;
+namespace Autofactor\TicketingPortalClient\Api\ReleaseNote;
 
 
-use Albertarni\TicketingPortalClient\Api\Model;
+use Autofactor\TicketingPortalClient\Api\Model;
 
 class Release extends Model
 {
@@ -23,6 +23,6 @@ class Release extends Model
     ];
 
     protected $relations = [
-        'notes' => 'Albertarni\TicketingPortalClient\Api\ReleaseNote\Note'
+        'notes' => 'Autofactor\TicketingPortalClient\Api\ReleaseNote\Note'
     ];
 }

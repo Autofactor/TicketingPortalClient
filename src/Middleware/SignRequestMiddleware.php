@@ -1,8 +1,8 @@
 <?php
 
-namespace Albertarni\TicketingPortalClient\Middleware;
+namespace Autofactor\TicketingPortalClient\Middleware;
 
-use Albertarni\TicketingPortalClient\SignRequest;
+use Autofactor\TicketingPortalClient\SignRequest;
 use Closure;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Session\Middleware\StartSession;

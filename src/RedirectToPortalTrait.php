@@ -1,6 +1,6 @@
 <?php
 
-namespace Albertarni\TicketingPortalClient;
+namespace Autofactor\TicketingPortalClient;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
@@ -10,7 +10,7 @@ trait RedirectToPortalTrait
 {
     /**
      * Redirect to the ticketing portal
-     * @param \Albertarni\TicketingPortalClient\SignerInterface $signer
+     * @param \Autofactor\TicketingPortalClient\SignerInterface $signer
      * @return type
      */
     public function redirectToTicketingPortal($redirect_url)
@@ -25,7 +25,7 @@ trait RedirectToPortalTrait
     }
     /**
      *
-     * @return \Albertarni\TicketingPortalClient\SignerInterface
+     * @return \Autofactor\TicketingPortalClient\SignerInterface
      */
     protected abstract function getSignerInterfaceImplementation();
     /**

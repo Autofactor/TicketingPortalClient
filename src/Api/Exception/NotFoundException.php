@@ -6,7 +6,7 @@
  * Time: 6:17 PM
  */
 
-namespace Albertarni\TicketingPortalClient\Api\Exception;
+namespace Autofactor\TicketingPortalClient\Api\Exception;
 
 
 use Throwable;

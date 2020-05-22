@@ -6,10 +6,10 @@
  * Time: 5:52 PM
  */
 
-namespace Albertarni\TicketingPortalClient\Api\News;
+namespace Autofactor\TicketingPortalClient\Api\News;
 
 
-use Albertarni\TicketingPortalClient\Api\Model;
+use Autofactor\TicketingPortalClient\Api\Model;
 
 class News extends Model
 {

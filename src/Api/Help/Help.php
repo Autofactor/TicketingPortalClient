@@ -6,10 +6,10 @@
  * Time: 5:52 PM
  */
 
-namespace Albertarni\TicketingPortalClient\Api\Help;
+namespace Autofactor\TicketingPortalClient\Api\Help;
 
 
-use Albertarni\TicketingPortalClient\Api\Model;
+use Autofactor\TicketingPortalClient\Api\Model;
 
 class Help extends Model
 {

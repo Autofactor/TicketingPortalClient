@@ -1,5 +1,5 @@
 <?php
-namespace Albertarni\TicketingPortalClient\Api;
+namespace Autofactor\TicketingPortalClient\Api;
 
 
 /**

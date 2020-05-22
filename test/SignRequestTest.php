@@ -1,9 +1,9 @@
 <?php
 
-namespace AlbertarniTest\TicketingPortalClient;
+namespace AutofactorTest\TicketingPortalClient;
 
 use PHPUnit_Framework_TestCase;
-use Albertarni\TicketingPortalClient\SignRequest;
+use Autofactor\TicketingPortalClient\SignRequest;
 
 class SignRequestTest extends PHPUnit_Framework_TestCase
 {

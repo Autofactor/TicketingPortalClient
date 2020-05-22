@@ -1,6 +1,6 @@
 <?php
 
-namespace Albertarni\TicketingPortalClient;
+namespace Autofactor\TicketingPortalClient;
 
 use Illuminate\Support\ServiceProvider;
 use Config;

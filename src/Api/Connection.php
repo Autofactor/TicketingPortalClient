@@ -6,14 +6,14 @@
  * Time: 4:05 PM
  */
 
-namespace Albertarni\TicketingPortalClient\Api;
+namespace Autofactor\TicketingPortalClient\Api;
 
-use Albertarni\TicketingPortalClient\Api\Exception\ForbiddenException;
-use Albertarni\TicketingPortalClient\Api\Exception\NotFoundException;
-use Albertarni\TicketingPortalClient\Api\Exception\UnauthorizedException;
-use Albertarni\TicketingPortalClient\Api\Exception\ValidationException;
-use Albertarni\TicketingPortalClient\SignerInterface;
-use Albertarni\TicketingPortalClient\UrlGenerator;
+use Autofactor\TicketingPortalClient\Api\Exception\ForbiddenException;
+use Autofactor\TicketingPortalClient\Api\Exception\NotFoundException;
+use Autofactor\TicketingPortalClient\Api\Exception\UnauthorizedException;
+use Autofactor\TicketingPortalClient\Api\Exception\ValidationException;
+use Autofactor\TicketingPortalClient\SignerInterface;
+use Autofactor\TicketingPortalClient\UrlGenerator;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
@@ -26,7 +26,7 @@ use GuzzleHttp\Psr7;
 /**
  * Class Connection
  *
- * @package Albertarni\TicketingPortalClient
+ * @package Autofactor\TicketingPortalClient
  *
  */
 class Connection
