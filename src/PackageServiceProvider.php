@@ -19,7 +19,7 @@ class PackageServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app['config']->package('albertarni/ticketing-portal-client', __DIR__.'/config');
+        $this->app['config']->package('autofactor/ticketing-portal-client', __DIR__.'/config');
     }
     /**
      * Register the application services.
