@@ -34,7 +34,7 @@ class Connection
     /**
      * @var string
      */
-    private $baseUrl = 'https://support.autofactor.eu/';
+    private $baseUrl = 'https://support.autofactor.com/';
 
     /**
      * The api token used to sign the requests.
